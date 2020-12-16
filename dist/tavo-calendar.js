@@ -475,6 +475,10 @@
 
     TavoCalendar.prototype.setEndDate = function(date) {
         this.state.date_end = date
+
+        this.destroy()
+        this.mount()
+        this.bindEvents();
     }
 
     TavoCalendar.prototype.getRange = function() {
@@ -496,8 +500,6 @@
     TavoCalendar.prototype.setFocusDate = function(date) {
         this.moment = moment(date);
 
-        this.config.date = this.moment.format('YYYY-MM-DD');
-
         this.destroy();
         this.mount()
         this.bindEvents();
@@ -509,9 +511,6 @@
 
     TavoCalendar.prototype.setFocusYear = function(y) {
         this.moment.set('year', y);
-
-        this.config.date = this.moment.format('YYYY-MM-DD');
-
         this.destroy();
         this.mount()
         this.bindEvents();
@@ -530,8 +529,6 @@
         
         this.moment.set('month', month == 0 ? 0 : month - 1);
 
-        this.config.date = this.moment.format('YYYY-MM-DD');
-
         this.destroy();
         this.mount()
         this.bindEvents();
@@ -547,6 +544,10 @@
 
     TavoCalendar.prototype.setConfig = function(config) {
         this.config = Object.assign({}, this.config, config);
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
     }
 
     TavoCalendar.prototype.getState = function() {
@@ -708,10 +709,7 @@
 
     TavoCalendar.prototype.unlock = function() {
         this.state.lock = false;
-
-        this.destroy();
-        this.mount()
-        this.bindEvents();
+        this.elements.calendar_code.classList.remove(CLASS_CALENDAR_CODE_LOCK);
     }
 
     TavoCalendar.prototype.destroy = function() {

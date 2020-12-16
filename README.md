@@ -55,6 +55,8 @@ const my_calendar = new TavoCalendar('.calendar', options);
 * `setFocusYear(year)` -- set calendar focus year
 * `getFocusMonth()` -- calendar focus month
 * `setFocusMonth(month)` -- set calendar focus month
+* `nextMonth()` -- move to next month
+* `prevMonth()` -- move to prev month
 
 **Other**
 
