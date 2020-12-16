@@ -93,15 +93,3 @@ calendar_el.addEventListener('calendar-range', (ev) => {
 ## Depends on:
 
 * [moment](https://github.com/moment/moment/)
-
-## Todo
-
-* `setSelected()` -- given an array of dates select them in calendar
-* `setStartDate()` -- range select start
-* `setEndDate()` -- range select end
-* `setRange()` - set range object { start: '2012-12-10', end: '2012-12-15'}
-* `setFocusYear()` -- set calendar focus year
-* `setFocusMonth()` -- set calendar focus month
-* `setFocusDay()` -- set calendar focus day
-* `setConfig()` - set current config object
-* `setState()` - set current state object
