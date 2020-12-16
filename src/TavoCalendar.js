@@ -343,13 +343,10 @@
 
         // set back fot future use
         moment_copy.year(year).month(month);
-        moment_copy.startOf('month');
+        moment_copy.endOf('month');
 
-        // not all months end on the final day of a week
-        if (moment_copy.day() < 6 + this.locale_data.firstDayOfWeek()) {
-            for (var i = 0; i < 6 + this.locale_data.firstDayOfWeek() - moment_copy.day(); i++) {
-                calendar_days_el.appendChild(getDummyDay());
-            }
+        for (var i = 0; i < (6 - moment_copy.day()); i++) {
+            calendar_days_el.appendChild(getDummyDay());
         }
 
         calendar_code_el.appendChild(calendar_header_el);
@@ -451,12 +448,32 @@
         return this.state.selected;
     }
 
+    TavoCalendar.prototype.setSelected = function(date) {
+        this.state.selected = date;
+
+        this.destroy()
+        this.mount()
+        this.bindEvents();
+    }
+
     TavoCalendar.prototype.getStartDate = function() {
         return this.state.date_start;
     }
 
+    TavoCalendar.prototype.setStartDate = function(date) {
+        this.state.date_start = date;
+
+        this.destroy()
+        this.mount()
+        this.bindEvents();
+    }
+
     TavoCalendar.prototype.getEndDate = function() {
         return this.state.date_end;
+    }
+
+    TavoCalendar.prototype.setEndDate = function(date) {
+        this.state.date_end = date
     }
 
     TavoCalendar.prototype.getRange = function() {
@@ -466,20 +483,69 @@
         };
     }
 
+    TavoCalendar.prototype.setRange = function(date1, date2) {
+        this.state.date_start = date1
+        this.state.date_end = date2
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
+    }
+
+    TavoCalendar.prototype.setFocusDate = function(date) {
+        this.moment = moment(date);
+
+        this.config.date = this.moment.format('YYYY-MM-DD');
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
+    }
+
     TavoCalendar.prototype.getFocusYear = function() {
         return this.moment.format('YYYY');
     }
 
+    TavoCalendar.prototype.setFocusYear = function(y) {
+        this.moment.set('year', y);
+
+        this.config.date = this.moment.format('YYYY-MM-DD');
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
+    }
+
     TavoCalendar.prototype.getFocusMonth = function() {
-        return this.moment.format('MM');
+        return this.moment.format('MM')
+    }
+
+    TavoCalendar.prototype.setFocusMonth = function(m) {
+        var month = Number.parseInt(m);
+
+        if (Number.isNaN(month)) {
+            throw new Error('Invalid month.');
+        }
+        
+        this.moment.set('month', month == 0 ? 0 : month - 1);
+
+        this.config.date = this.moment.format('YYYY-MM-DD');
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
     }
 
     TavoCalendar.prototype.getFocusDay = function() {
-        return this.moment.format('DD');
+        this.moment.format('DD');
     }
 
     TavoCalendar.prototype.getConfig = function() {
         return this.config;
+    }
+
+    TavoCalendar.prototype.setConfig = function(config) {
+        this.config = Object.assign({}, this.config, config);
     }
 
     TavoCalendar.prototype.getState = function() {
@@ -499,6 +565,14 @@
 
         this.state = state;
         this.config = config;
+
+        this.destroy();
+        this.mount();
+        this.bindEvents();
+    }
+
+    TavoCalendar.prototype.setState = function(state) {
+        this.state = state;
 
         this.destroy();
         this.mount();
