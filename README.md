@@ -35,18 +35,32 @@ const my_calendar = new TavoCalendar('.calendar', options);
 * `frozen` (*optional*) -- disable all interactions (defaults to `false`)
 * `highligh_sunday` (*optional*) -- highlight sundays (defaults to `true`)
 
-**Available methods**
+**Selecting**
 
 * `getSelected()` -- returns an array of selected dates (in multiselect mode) or single
+* `addSelected(date)` -- add date to  selected
+* `clearSelected()` -- clear all selected dates 
 * `getStartDate()` -- range start
+* `setStartDate(date)` -- set range start
 * `getEndDate()` -- range end
+* `setEndDate(date)` -- set range end
 * `getRange()` - range object { start: '2012-12-10', end: '2012-12-15'}
+* `clearRange()` - clear range
+* `setRange(date1, date2)` - set full range
+* `clear()` - clear all selections
+
+**Moving calendar window**
+
 * `getFocusYear()` -- calendar focus year
+* `setFocusYear(year)` -- set calendar focus year
 * `getFocusMonth()` -- calendar focus month
-* `getFocusDay()` -- calendar focus day
-* `getConfig()` - current config object
-* `getState()` - current state object
-* `sync(obj)` -- sync two or more calendars `calendarA.sync({ config: calendarB.getConfig(), state: calendarB.getState() })`
+* `setFocusMonth(month)` -- set calendar focus month
+* `nextMonth()` -- move to next month
+* `prevMonth()` -- move to prev month
+
+**Other**
+
+* `sync(other_calendar)` -- sync two or more calendars `calendarA.sync(calendarB)`
 
 **Events**
 
