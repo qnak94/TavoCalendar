@@ -124,12 +124,17 @@
         const config = Object.assign({}, options_default, user_options);
 
         this.state = {
-            selected: config.selected ? config.selected : [],
             highlight: config.highlight ? config.highlight : [],
             blacklist: config.blacklist ? config.blacklist : [],
             date_start: config.date_start,
             date_end: config.date_end,
             lock: config.lock || config.frozen 
+        }
+
+        if (Array.isArray(config.selected)) {
+            this.state.selected = config.selected ? config.selected : []
+        } else {
+            this.state.selected = config.selected ? [config.selected] : []
         }
 
         let calnedar_moment;
@@ -433,7 +438,7 @@
                     this.state.selected.push(date);
                 }
             } else {
-                this.state.selected = date;
+                this.state.selected = [date];
             }
 
             this.elements.wrapper.dispatchEvent(new Event('calendar-select'))
@@ -445,15 +450,11 @@
     }
 
     TavoCalendar.prototype.getSelected = function() {
-        return this.state.selected;
-    }
+        if (this.config.multi_select) {
+            return this.state.selected;
+        }
 
-    TavoCalendar.prototype.setSelected = function(date) {
-        this.state.selected = date;
-
-        this.destroy()
-        this.mount()
-        this.bindEvents();
+        return this.state.selected ? this.state.selected[this.state.selected.length - 1] : null;
     }
 
     TavoCalendar.prototype.getStartDate = function() {
@@ -555,8 +556,16 @@
     }
 
     TavoCalendar.prototype.sync = function(obj) {
-        const state = JSON.parse(JSON.stringify(obj.state));
-        const config = JSON.parse(JSON.stringify(obj.config));
+        let state;
+        let config;
+
+        if (obj instanceof TavoCalendar) {
+            state = JSON.parse(JSON.stringify(obj.getState()));
+            config = JSON.parse(JSON.stringify(obj.getConfig()));
+        } else {
+            state = JSON.parse(JSON.stringify(obj.state));
+            config = JSON.parse(JSON.stringify(obj.config));
+        }
 
         this.moment = moment(state.date_calendar, config.format)
         this.moment.locale(config.locale);
@@ -589,6 +598,53 @@
 
     TavoCalendar.prototype.prevMonth = function(e) {
         this.moment.subtract(1, 'month');
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
+    }
+
+    TavoCalendar.prototype.setSelected = function(date) {
+        if (this.state.selected) {
+            this.state.selected[this.state.selected.length - 1] = date;
+        } else {
+            this.state.selected.push(date);
+        }
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
+    }
+
+    TavoCalendar.prototype.addSelected = function(date) {
+        if (this.state.selected.length == 1) {
+            this.config.multi_select = true;
+        }
+
+        this.state.selected.push(date);
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
+    }
+
+    TavoCalendar.prototype.clearSelected = function() {
+        this.state.selected = []
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
+    }
+
+    TavoCalendar.prototype.clearRange = function() {
+        this.reset();
+    }
+
+    TavoCalendar.prototype.clear = function() {
+        this.state.selected = []
+
+        this.state.date_start = null;
+        this.state.date_end = null;
 
         this.destroy();
         this.mount()
@@ -640,6 +696,22 @@
                 that.removeLock();
             }   
         }, true);
+    }
+
+    TavoCalendar.prototype.lock = function() {
+        this.state.lock = true;
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
+    }
+
+    TavoCalendar.prototype.unlock = function() {
+        this.state.lock = false;
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
     }
 
     TavoCalendar.prototype.destroy = function() {

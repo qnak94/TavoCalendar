@@ -19,10 +19,11 @@
 
         <button>Set year to 1983</button>
         <button>Set month to May</button>
-        <button>Select day 22</button>
+        <button>Select day 15</button>
+        <button>Select day 25</button>
         <button>Set date to 1995-05-14</button>
-        <button>Focus calendar 1995 June and set range 10-12</button>
-
+        <button>Set range 10-12</button>
+        <button>Clear selections</button>
             
         <script src="../node_modules/moment/moment.js" ></script>
         <script src="../dist/tavo-calendar.js"></script>
@@ -47,18 +48,29 @@
                 var year = my_calendar.getFocusYear();
                 var month = my_calendar.getFocusMonth();
 
-                my_calendar.setSelected(year + '-' + month + '-' + '22');
+                my_calendar.addSelected(year + '-' + month + '-' + '15');
             })
 
             buttons[3].addEventListener('click', function() {
-                my_calendar.setFocusDate('1995-05-14');
+                var year = my_calendar.getFocusYear();
+                var month = my_calendar.getFocusMonth();
+
+                my_calendar.addSelected(year + '-' + month + '-' + '25');
             })
 
             buttons[4].addEventListener('click', function() {
-                my_calendar.setFocusYear(1995);
-                my_calendar.setFocusMonth(5);
+                my_calendar.setFocusDate('1995-05-14');
+            })
 
-                my_calendar.setRange('1995-05-10', '1995-05-12');
+            buttons[5].addEventListener('click', function() {
+                var year = my_calendar.getFocusYear();
+                var month = my_calendar.getFocusMonth();
+
+                my_calendar.setRange(year + '-' + month + '-' + '10', year + '-' + month + '-' + '12');
+            })
+
+            buttons[6].addEventListener('click', function() {
+                my_calendar.clear();
             })
         </script>   
     </body>
