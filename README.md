@@ -92,6 +92,7 @@ calendar_el.addEventListener('calendar-range', (ev) => {
     console.log('End', range.end)
 });
 ```
+Please look examples->basic too
 
 ## Depends on:
 
