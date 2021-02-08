@@ -1,4 +1,4 @@
-# TavoCalendar
+# TavoCalendar Horizontal
 
 Display calendar and pick dates (singular or range).
 
