@@ -1,11 +1,12 @@
-$brand-color: green;
+$brand-color: #18A5EB;
 $brand-text-color: white;
-
 $compliment-color: #F1F1F1;
+$usually-color:black;
 
 $icon-size: 16px;
-$font-size: 13px;
-
+$font-size: 16px;
+$font-size-day: 14px;
+$font-size-week:14px;
 $step-xs: 2px;
 $step-sm: 4px;
 $step-md: 8px;
@@ -13,6 +14,11 @@ $step-md: 8px;
 .tavo-calendar {
     text-align: center;
     font-size: $font-size;
+    background: #f5fcff;
+    border-radius: 10px;
+    margin-right: -8px;
+    margin-left: -8px;
+    padding: 16px;
 }
 
 .tavo-calendar__info {
@@ -23,7 +29,7 @@ $step-md: 8px;
 
     span {
         font-weight: bold;
-        background-color:#f1f1f1;  
+        background-color:#f1f1f1;
     }
 
     &:after {
@@ -36,21 +42,23 @@ $step-md: 8px;
 .tavo-calendar__header{
     display: flex;
     justify-content: space-between;
-    background-color: $brand-color;
-    color: $brand-text-color;
+    color: $usually-color;
     align-items: center;
     padding: $step-sm $step-md;
+    max-width: 400px;
+    margin: 0 auto;
 }
-
 .tavo-calendar__nav {
     float:left;
-    font-size:1.125em;
+    //font-size:1.125em;
     font-weight:bold;
     position:relative;
-    padding:0;
     cursor:pointer;
     fill: $brand-text-color;
-
+    background: $brand-color;
+    border-radius: 50%;
+    padding: 3px;
+    line-height: $icon-size;
     &_prev,
     &_next {
         text-align:left;
@@ -65,29 +73,39 @@ $step-md: 8px;
 .tavo-calendar__code {
     &_lock {
         opacity: 0.7;
-    }   
-    
+    }
+
     &_lock:hover {
         opacity: 1;
     }
-    
+
     &_lock .tavo-calendar__days {
         pointer-events: none;
     }
 }
 
 .tavo-calendar__week-names {
-    display: flex;
-    background-color: $compliment-color;
-    font-size: 12px;
+    //background-color: $compliment-color;
+    font-size: $font-size-week;
     padding: 4px;
+    max-width: 100%;
+    height: 70px;
+    overflow-y: hidden;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
 }
+
 
 .tavo-calendar__days {
     display: flex;
     flex-wrap: wrap;
 
     margin-top: 5px;
+    &-wrap{
+        display: flex;
+        align-items: center;
+    }
 }
 
 .tavo-calendar__reset {
@@ -98,6 +116,23 @@ $step-md: 8px;
         width: $icon-size;
     }
 }
+.tavo-calendar__scroll-box{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding-bottom: 30px;
+}
+
+.tavo-calendar__date-box{
+    min-width: 76px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .tavo-calendar__weekday {
     flex: 1;
@@ -107,20 +142,18 @@ $step-md: 8px;
 .tavo-calendar__day {
     flex: 1;
 
-    min-width: 14%;
-    max-width: 15%;
-
     text-align: center;
 
     cursor: pointer;
 
     span {
-        width: 26px;
-        height: 26px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         display: inline-block;
-        line-height: 26px;
-        font-size: 12px;
+        line-height: 32px;
+        font-size: $font-size-day;
+        background: lightblue;
 
         &:hover {
             background-color: lightblue;
@@ -132,7 +165,7 @@ $step-md: 8px;
     }
 
     &_abs-today     {
-        background-color: lightgoldenrodyellow;
+        //background-color: lightgoldenrodyellow;
         border-radius: unset;
     }
 
@@ -164,8 +197,8 @@ $step-md: 8px;
     &_select {
 
         span {
-            background-color: lightblue;
-            border-radius: unset;
+            background-color: $brand-color;
+            color: $brand-text-color;
         }
 
         day:hover {
@@ -180,5 +213,36 @@ $step-md: 8px;
     &_select-lock {
         pointer-events: none;
         color: grey;
+    }
+    &_range-start{
+        span{
+            border-radius: 50% 0 0 50%;
+        }
+    }
+    &_range-end{
+        span{
+            border-radius: 0 50% 50% 0;
+        }
+    }
+}
+.tavo-calendar__day_off span{
+    background: none;
+    &:hover{
+        background: none;
+    }
+}
+.tavo-calendar__day_off.tavo-calendar__day_select span{
+    background-color: $brand-color;
+    &:hover{
+        background-color: lightblue;
+    }
+}
+.tavo-calendar__day_range-start.tavo-calendar__day_range-end span{
+    border-radius: 50%;
+}
+
+@media (max-width: 480px){
+    .tavo-calendar__date-box{
+        min-width: 84px;
     }
 }

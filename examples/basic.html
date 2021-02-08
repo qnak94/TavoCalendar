@@ -8,23 +8,41 @@
             body {
                 font-family: Arial, Helvetica, sans-serif;
             }
-
-            #my-calendar {
-                max-width: 200px;
-            }
         </style>
     </head>
     <body>
         <div id="my-calendar"></div>
             
-        <script src="../node_modules/moment/moment.js" ></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
         <script src="../dist/tavo-calendar.js"></script>
 
         <script>
-            const my_calendar = new TavoCalendar('#my-calendar', {
-                date: "2014-12-21",
-                selected: ["2014-12-24"]
-            })
-        </script>   
+            const calendar_element = document.querySelector('#my-calendar');
+            const my_calendar = new TavoCalendar(calendar_element, {
+                highlight_saturday: true,
+                selected: [moment().format('YYYY-MM-DD')],
+                past_select: '2020-01-01'
+            });
+            let days_box = {
+                element:document.querySelector('#my-calendar .tavo-calendar__scroll-box'),
+                scroll_left:0
+            };
+            calendar_element.addEventListener('calendar-reset', function (){
+                days_box.element = document.querySelector('#my-calendar .tavo-calendar__scroll-box');
+                days_box.element.scroll({left:days_box.scroll_left, behavior:'instant'});
+            });
+            calendar_element.addEventListener('calendar-click_nav_date_prev', function (){
+                days_box.element.scrollLeft = days_box.element.scrollLeft - (days_box.element.offsetWidth - 76);
+            });
+            calendar_element.addEventListener('calendar-click_nav_date_next', function (){
+                days_box.element.scrollLeft = days_box.element.scrollLeft + (days_box.element.offsetWidth - 76);
+            });
+            // calendar_element.addEventListener('calendar-change', setBlacklist);
+            //
+            calendar_element.addEventListener('calendar-select', onRangeChose);
+            function onRangeChose() {
+                days_box.scroll_left = days_box.element.scrollLeft;
+            }
+        </script>
     </body>
 </html>

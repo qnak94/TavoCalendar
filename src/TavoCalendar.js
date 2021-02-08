@@ -1,5 +1,5 @@
 /*!
- * calendar 0.0.4
+ * calendar 0.0.5
  *
  * @license MIT
  * @author Justinas Bei
@@ -53,7 +53,7 @@
     var CLASS_CALENDAR_DAY_LOCK = "tavo-calendar__day_lock";
     var CLASS_CALENDAR_DAY_DIFFERENT_MONTH = "tavo-calendar__day_different-month";
     var CLASS_CALENDAR_DAY_HIGHTLIGHT = "tavo-calendar__day_highlight";
-    
+
 
     function showError(type, text){
         window.console && window.console[type] && window.console[type]('TavoCalendar: ' + text);
@@ -61,12 +61,12 @@
 
     function getDummyDay() {
         var dummy_day_el, dummy_day_wrapper_el;
-                
+
         dummy_day_wrapper_el = document.createElement('span');
         dummy_day_wrapper_el.className = CLASS_CALENDAR_DAY + " " + CLASS_CALENDAR_DAY_DIFFERENT_MONTH;
 
         dummy_day_el = document.createElement("span");
-        dummy_day_el.className = CLASS_CALENDAR_INNER; 
+        dummy_day_el.className = CLASS_CALENDAR_INNER;
         dummy_day_el.textContent = "-";
 
         dummy_day_wrapper_el.appendChild(dummy_day_el);
@@ -128,7 +128,7 @@
             blacklist: config.blacklist ? config.blacklist : [],
             date_start: config.date_start,
             date_end: config.date_end,
-            lock: config.lock || config.frozen 
+            lock: config.lock || config.frozen
         }
 
         if (Array.isArray(config.selected)) {
@@ -167,7 +167,7 @@
 
         // Code Header
         var calendar_header_el, calendar_month_el, calendar_nav_prev_el, calendar_nav_next_el;
-        
+
         // Code Days
         var calendar_week_names_el, calendar_days_el;
 
@@ -193,11 +193,11 @@
         //Calendar header
         calendar_header_el =document.createElement('div');
         calendar_header_el.className = CLASS_CALENDAR_HEADER;
-        
+
         calendar_month_el = document.createElement('span');
         calendar_month_el.className = CLASS_CALENDAR_MONTH;
         calendar_month_el.textContent = this.moment.format(MOMENT_F_MONTH);
-        
+
         calendar_nav_prev_el = document.createElement('span');
         calendar_nav_prev_el.className = CLASS_CALENDAR_NAV_PREV + " " + CLASS_CALENDAR_NAV;
         calendar_nav_prev_el.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>';
@@ -214,19 +214,17 @@
         calendar_week_names_el.className = CLASS_CALENDAR_WEEK_NAMES;
 
         var weekday_elems = [];
-
         for (var i = 1; i < 7; i++) {
             var weekday_el;
-            
             weekday_el = document.createElement("span");
             weekday_el.className = CLASS_CALENDAR_WEEKDAY;
             weekday_el.textContent = this.locale_data.weekdaysShort()[i];
-
             weekday_elems.push(weekday_el);
         }
 
+
         var sunday_el;
-            
+
         sunday_el = document.createElement("span");
         sunday_el.className = CLASS_CALENDAR_WEEKDAY;
         sunday_el.textContent = this.locale_data.weekdaysShort()[0];
@@ -287,7 +285,7 @@
             } else if (moment_copy.isAfter(moment(), "day")) {
                 day_wrapper_el.className =  day_wrapper_el.className + " " + CLASS_CALENDAR_DAY_ABS_FUTURE;
             }
-            
+
             //RELATIVE RELATIONS
             if (moment_copy.isSame(moment(this.state.date, this.config.format), "day")) {
                 day_wrapper_el.className =  day_wrapper_el.className + " " + CLASS_CALENDAR_DAY_REL_TODAY;
@@ -309,7 +307,7 @@
             if (this.config.highlight_sunday && moment_copy.isoWeekday() === 7) {
                 day_wrapper_el.className =  day_wrapper_el.className + " " + CLASS_CALENDAR_DAY_HIGHTLIGHT;
             }
-            
+
             if (this.state.blacklist.indexOf(moment_copy.format(this.config.format)) > -1) {
                 day_wrapper_el.className = day_wrapper_el.className + " " + CLASS_CALENDAR_DAY_OFF + " " + CLASS_CALENDAR_DAY_LOCK;
             }
@@ -379,7 +377,7 @@
             calendar_select_date_end_el.textContent = this.state.date_end;
         }
 
-        calendar_reset_el.className = CLASS_CALENDAR_RESET + ' button';        
+        calendar_reset_el.className = CLASS_CALENDAR_RESET + ' button';
         calendar_reset_el.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M311.7 374.7l-17 17c-4.7 4.7-12.3 4.7-17 0L224 337.9l-53.7 53.7c-4.7 4.7-12.3 4.7-17 0l-17-17c-4.7-4.7-4.7-12.3 0-17l53.7-53.7-53.7-53.7c-4.7-4.7-4.7-12.3 0-17l17-17c4.7-4.7 12.3-4.7 17 0l53.7 53.7 53.7-53.7c4.7-4.7 12.3-4.7 17 0l17 17c4.7 4.7 4.7 12.3 0 17L257.9 304l53.7 53.7c4.8 4.7 4.8 12.3.1 17zM448 112v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"/></svg>';
 
         if (this.state.date_start && this.state.date_end) {
@@ -391,7 +389,7 @@
         } else if (this.config.range && this.state.date_start) {
             calendar_info_el.appendChild(calendar_select_date_start_el);
             calendar_info_el.appendChild(document.createTextNode(" - "));
-            
+
             calendar_info_el.appendChild(calendar_reset_el);
         } else if (this.state.day) {
             calendar_info_el.appendChild(calendar_select_date_el);
@@ -410,6 +408,55 @@
         this.elements.calendar_reset = calendar_reset_el;
         this.elements.calendar_nav_prev = calendar_nav_prev_el;
         this.elements.calendar_nav_next = calendar_nav_next_el;
+
+
+
+        //custom code
+        var week_box = calendar_week_names_el;
+        var days_box = calendar_days_el;
+        var all_days = days_box.querySelectorAll('.tavo-calendar__day');
+        var week_days = week_box.querySelectorAll('.tavo-calendar__weekday');
+
+        var scroll_box = document.createElement('div');
+        scroll_box.className = 'tavo-calendar__scroll-box';
+        week_box.appendChild(scroll_box);
+
+        all_days.forEach(function(day, index){
+            if(!day.classList.contains('tavo-calendar__day_different-month')){
+                let current_index = index + 1;
+                var box = document.createElement('div');
+                box.className = 'tavo-calendar__date-box';
+                var clone;
+                if((current_index % 7) === 0 ){
+                    clone = week_days[6].cloneNode(true);
+                }
+                else{
+                    clone = week_days[(current_index % 7)-1].cloneNode(true);
+                }
+
+                box.appendChild(clone);
+                box.appendChild(day);
+                scroll_box.appendChild(box);
+            }
+        })
+        week_days.forEach(node => node.remove());
+        days_box.remove();
+        var prev_button = calendar_nav_prev_el.cloneNode(true);
+        var next_button = calendar_nav_next_el.cloneNode(true);
+        var days_wrapper = document.createElement('div');
+        days_wrapper.className = 'tavo-calendar__days-wrap';
+        week_box.insertAdjacentElement('afterend', days_wrapper);
+
+        days_wrapper.appendChild(prev_button);
+        days_wrapper.appendChild(week_box);
+        days_wrapper.appendChild(next_button);
+        this.elements.calendar_nav_date_prev = prev_button;
+        this.elements.calendar_nav_date_next = next_button;
+
+        //end custom code
+
+
+
     }
 
     TavoCalendar.prototype.dayClick = function(date, day_el) {
@@ -475,6 +522,10 @@
 
     TavoCalendar.prototype.setEndDate = function(date) {
         this.state.date_end = date
+
+        this.destroy()
+        this.mount()
+        this.bindEvents();
     }
 
     TavoCalendar.prototype.getRange = function() {
@@ -496,8 +547,6 @@
     TavoCalendar.prototype.setFocusDate = function(date) {
         this.moment = moment(date);
 
-        this.config.date = this.moment.format('YYYY-MM-DD');
-
         this.destroy();
         this.mount()
         this.bindEvents();
@@ -509,9 +558,6 @@
 
     TavoCalendar.prototype.setFocusYear = function(y) {
         this.moment.set('year', y);
-
-        this.config.date = this.moment.format('YYYY-MM-DD');
-
         this.destroy();
         this.mount()
         this.bindEvents();
@@ -527,10 +573,8 @@
         if (Number.isNaN(month)) {
             throw new Error('Invalid month.');
         }
-        
-        this.moment.set('month', month == 0 ? 0 : month - 1);
 
-        this.config.date = this.moment.format('YYYY-MM-DD');
+        this.moment.set('month', month == 0 ? 0 : month - 1);
 
         this.destroy();
         this.mount()
@@ -547,6 +591,10 @@
 
     TavoCalendar.prototype.setConfig = function(config) {
         this.config = Object.assign({}, this.config, config);
+
+        this.destroy();
+        this.mount()
+        this.bindEvents();
     }
 
     TavoCalendar.prototype.getState = function() {
@@ -656,7 +704,7 @@
         this.state.date_end = null;
 
         if (!this.config.frozen) {
-            this.state.lock = false; 
+            this.state.lock = false;
         }
 
         this.destroy();
@@ -687,6 +735,16 @@
             that.elements.wrapper.dispatchEvent(new Event('calendar-reset'))
         });
 
+        this.elements.calendar_nav_date_prev.addEventListener('click',  function(e){
+
+            that.elements.wrapper.dispatchEvent(new Event('calendar-click_nav_date_prev'))
+        });
+
+        this.elements.calendar_nav_date_next.addEventListener('click',  function(e){
+
+            that.elements.wrapper.dispatchEvent(new Event('calendar-click_nav_date_next'))
+        });
+
         this.elements.calendar_code.addEventListener('click',  function(ev){
             ev.preventDefault();
 
@@ -694,8 +752,10 @@
                 ev.stopImmediatePropagation();
 
                 that.removeLock();
-            }   
+            }
         }, true);
+
+        that.elements.wrapper.dispatchEvent(new Event('calendar-reset'));
     }
 
     TavoCalendar.prototype.lock = function() {
@@ -708,13 +768,11 @@
 
     TavoCalendar.prototype.unlock = function() {
         this.state.lock = false;
-
-        this.destroy();
-        this.mount()
-        this.bindEvents();
+        this.elements.calendar_code.classList.remove(CLASS_CALENDAR_CODE_LOCK);
     }
 
     TavoCalendar.prototype.destroy = function() {
+
         this.elements.wrapper.innerHTML = '';
     }
 
