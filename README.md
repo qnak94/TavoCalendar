@@ -69,6 +69,9 @@ const my_calendar = new TavoCalendar('.calendar', options);
 * `calendar-select` -- fired on day change
 * `calendar-reset` -- fired on range reset
 
+* `calendar-click_nav_date_next` -- fired on click next button
+* `calendar-click_nav_date_prev` -- fired on click previous button
+
 ## Example
 
 Select range from future date.
